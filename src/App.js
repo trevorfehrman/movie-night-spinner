@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from '@emotion/styled';
-import { motion, useMotionValue, useTransform } from 'framer-motion';
+import { motion, useMotionValue, useMotionTemplate, animate } from 'framer-motion';
 import './App.css';
 
 const Container = styled('div')({
@@ -26,23 +26,42 @@ const Arrow = styled('div')({
 });
 
 function App() {
-  const [deg, setDeg] = React.useState(1000);
+  const x = useMotionValue(0);
+  const transform = useMotionTemplate`rotate(${x}deg)`;
 
-  React.useEffect(() => {
-    console.log(deg);
-  }, [deg]);
+  function spin(velocity) {
+    animate(x, velocity * 0.5, {
+      // TODO: Maybe try to get intertia working?
+      // type: 'intertia',
+      // velocity,
+      ease: [0.17, 0.67, 0.24, 0.98],
+      duration: 4,
+    });
+  }
+
   return (
     <Container>
-      <Circle
-        animate={{ rotate: deg }}
-        transition={{ duration: 2, ease: 'easeOut' }}
-        onPan={(e, panInfo) => {
-          // console.log(panInfo);
-          setDeg(panInfo.velocity.x * 2);
+      <motion.div
+        style={{ height: '20rem', width: '20rem' }}
+        drag
+        dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+        dragElastic={0.0}
+        dragMomentum={false}
+        onClick={() => {
+          x.isAnimating() && x.stop();
+        }}
+        onDrag={(e, dragInfo) => {
+          x.isAnimating() && x.stop();
+          x.set(x.get() + dragInfo.delta.x + dragInfo.delta.y);
+        }}
+        onDragEnd={() => {
+          spin(x.getVelocity());
         }}
       >
-        <Arrow />
-      </Circle>
+        <Circle style={{ transform }}>
+          <Arrow />
+        </Circle>
+      </motion.div>
     </Container>
   );
 }
