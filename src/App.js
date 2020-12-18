@@ -38,7 +38,6 @@ function App() {
       duration: 4,
     });
   }
-  console.log('testing');
 
   return (
     <Container>
