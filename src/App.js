@@ -26,11 +26,11 @@ const Arrow = styled('div')({
 });
 
 function App() {
-  const x = useMotionValue(0);
-  const transform = useMotionTemplate`rotate(${x}deg)`;
+  const rotation = useMotionValue(0);
+  const transform = useMotionTemplate`rotate(${rotation}deg)`;
 
   function spin(velocity) {
-    animate(x, velocity * 0.5, {
+    animate(rotation, velocity * 0.5, {
       // TODO: Maybe try to get intertia working?
       // type: 'intertia',
       // velocity,
@@ -48,14 +48,14 @@ function App() {
         dragElastic={0.0}
         dragMomentum={false}
         onClick={() => {
-          x.isAnimating() && x.stop();
+          rotation.isAnimating() && rotation.stop();
         }}
         onDrag={(e, dragInfo) => {
-          x.isAnimating() && x.stop();
-          x.set(x.get() + dragInfo.delta.x + dragInfo.delta.y);
+          rotation.isAnimating() && rotation.stop();
+          rotation.set(rotation.get() + dragInfo.delta.x + dragInfo.delta.y);
         }}
         onDragEnd={() => {
-          spin(x.getVelocity());
+          spin(rotation.getVelocity());
         }}
       >
         <Circle style={{ transform }}>
