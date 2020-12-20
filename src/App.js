@@ -14,8 +14,9 @@ const Container = styled('div')({
 const Circle = styled(motion.div)({
   height: '20rem',
   width: '20rem',
-  backgroundColor: 'green',
   borderRadius: '50%',
+  overflow: 'hidden',
+  position: 'relative',
 });
 
 const Arrow = styled('div')({
@@ -24,6 +25,16 @@ const Arrow = styled('div')({
   backgroundColor: 'black',
   transform: 'translateX(10rem)',
 });
+
+const Wedge = styled('div')(props => ({
+  height: '10rem',
+  transform: `rotate(${props.degrees}deg)`,
+  transformOrigin: 'bottom right',
+  width: '50%',
+  position: 'absolute',
+  backgroundColor:
+    props.index === 0 ? 'red' : props.index === 1 ? 'blue' : props.index === 2 ? 'green' : 'yellow',
+}));
 
 function App() {
   const x = useMotionValue(0);
@@ -59,7 +70,9 @@ function App() {
         }}
       >
         <Circle style={{ transform }}>
-          <Arrow />
+          {Array.from({ length: 4 }).map((wedge, i) => (
+            <Wedge key={i} degrees={String((i + 1) * 90)} index={i} />
+          ))}
         </Circle>
       </motion.div>
     </Container>
