@@ -37,11 +37,11 @@ const Wedge = styled('div')(props => ({
 }));
 
 function App() {
-  const x = useMotionValue(0);
-  const transform = useMotionTemplate`rotate(${x}deg)`;
+  const degreesMotionValue = useMotionValue(0);
+  const transform = useMotionTemplate`rotate(${degreesMotionValue}deg)`;
 
   function spin(velocity) {
-    animate(x, velocity * 0.5, {
+    animate(degreesMotionValue, velocity * 0.5, {
       // TODO: Maybe try to get intertia working?
       // type: 'intertia',
       // velocity,
@@ -59,14 +59,16 @@ function App() {
         dragElastic={0.0}
         dragMomentum={false}
         onClick={() => {
-          x.isAnimating() && x.stop();
+          degreesMotionValue.isAnimating() && degreesMotionValue.stop();
         }}
         onDrag={(e, dragInfo) => {
-          x.isAnimating() && x.stop();
-          x.set(x.get() + dragInfo.delta.x + dragInfo.delta.y);
+          degreesMotionValue.isAnimating() && degreesMotionValue.stop();
+          // const rect = e.target.getBoundingClientRect();
+          console.log(e.target.getBoundingClientRect());
+          degreesMotionValue.set(degreesMotionValue.get() + dragInfo.delta.x + dragInfo.delta.y);
         }}
         onDragEnd={() => {
-          spin(x.getVelocity());
+          spin(degreesMotionValue.getVelocity());
         }}
       >
         <Circle style={{ transform }}>
