@@ -58,18 +58,28 @@ function App() {
         dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
         dragElastic={0.0}
         dragMomentum={false}
-        onClick={() => {
-          degreesMotionValue.isAnimating() && degreesMotionValue.stop();
-        }}
+        // onClick={() => {
+        //   degreesMotionValue.isAnimating() && degreesMotionValue.stop();
+        // }}
         onDrag={(e, dragInfo) => {
           degreesMotionValue.isAnimating() && degreesMotionValue.stop();
-          // const rect = e.target.getBoundingClientRect();
-          console.log(e.target.getBoundingClientRect());
-          degreesMotionValue.set(degreesMotionValue.get() + dragInfo.delta.x + dragInfo.delta.y);
+          const { top, bottom, left, right } = e.target.getBoundingClientRect();
+          // console.log(top, window.innerHeight);
+          if (top > Math.floor(window.innerHeight / 2)) {
+            // console.log(dragInfo.delta);
+            if (dragInfo.velocity.x < 0) {
+              console.log('here');
+              degreesMotionValue.set(degreesMotionValue.get() + dragInfo.delta.x * -1);
+            } else {
+              console.log('der');
+              degreesMotionValue.set(degreesMotionValue.get() + dragInfo.delta.x);
+            }
+          }
+          // degreesMotionValue.set(degreesMotionValue.get() + dragInfo.delta.x + dragInfo.delta.y);
         }}
-        onDragEnd={() => {
-          spin(degreesMotionValue.getVelocity());
-        }}
+        // onDragEnd={() => {
+        //   spin(degreesMotionValue.getVelocity());
+        // }}
       >
         <Circle style={{ transform }}>
           {Array.from({ length: 4 }).map((wedge, i) => (
