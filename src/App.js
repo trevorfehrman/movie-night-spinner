@@ -58,40 +58,35 @@ function App() {
         dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
         dragElastic={0.0}
         dragMomentum={false}
-        // onClick={() => {
-        //   degreesMotionValue.isAnimating() && degreesMotionValue.stop();
-        // }}
-        onDrag={(e, dragInfo) => {
-          // degreesMotionValue.isAnimating() && degreesMotionValue.stop();
-          const { top, bottom, left, right } = e.target.getBoundingClientRect();
-          console.log(window.innerWidth, left);
-          // console.log(top, window.innerHeight);
-          if (top > Math.floor(window.innerHeight / 2)) {
-            // console.log(dragInfo.delta);
-            // if (dragInfo.velocity.x < 0) {
-            //   console.log('here');
-            //   degreesMotionValue.set(degreesMotionValue.get() + dragInfo.delta.x * -1);
-            // } else {
-            //   console.log('der');
-            //   degreesMotionValue.set(degreesMotionValue.get() + dragInfo.delta.x * -1);
-            // }
-          }
-          if (left > Math.floor(window.innerWidth / 2)) {
-            console.log('hi');
-            // console.log(dragInfo.delta);
-            // if (dragInfo.velocity.y < 0) {
-            //   console.log('hereY');
-            //   degreesMotionValue.set(degreesMotionValue.get() + dragInfo.delta.y * -1);
-            // } else {
-            //   console.log('derY');
-            //   degreesMotionValue.set(degreesMotionValue.get() + dragInfo.delta.y * -1);
-            // }
-          }
-          degreesMotionValue.set(degreesMotionValue.get() + dragInfo.delta.x + dragInfo.delta.y);
+        onClick={() => {
+          degreesMotionValue.isAnimating() && degreesMotionValue.stop();
         }}
-        // onDragEnd={() => {
-        //   spin(degreesMotionValue.getVelocity());
-        // }}
+        onDrag={(e, dragInfo) => {
+          degreesMotionValue.isAnimating() && degreesMotionValue.stop();
+          const { top, left } = e.target.parentNode.parentNode.getBoundingClientRect();
+          const { x, y } = dragInfo.point;
+          if (y < top + 160 && x > left + 160) {
+            degreesMotionValue.set(degreesMotionValue.get() + dragInfo.delta.x + dragInfo.delta.y);
+          }
+          if (y > top + 160 && x > left + 160) {
+            degreesMotionValue.set(
+              degreesMotionValue.get() + dragInfo.delta.x * -1 + dragInfo.delta.y
+            );
+          }
+          if (y > top + 160 && x < left + 160) {
+            degreesMotionValue.set(
+              degreesMotionValue.get() + dragInfo.delta.x * -1 + dragInfo.delta.y * -1
+            );
+          }
+          if (y < top + 160 && x < left + 160) {
+            degreesMotionValue.set(
+              degreesMotionValue.get() + dragInfo.delta.x + dragInfo.delta.y * -1
+            );
+          }
+        }}
+        onDragEnd={() => {
+          spin(degreesMotionValue.getVelocity());
+        }}
       >
         <Circle style={{ transform }}>
           {Array.from({ length: 4 }).map((wedge, i) => (
