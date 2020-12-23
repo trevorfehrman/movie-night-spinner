@@ -62,20 +62,32 @@ function App() {
         //   degreesMotionValue.isAnimating() && degreesMotionValue.stop();
         // }}
         onDrag={(e, dragInfo) => {
-          degreesMotionValue.isAnimating() && degreesMotionValue.stop();
+          // degreesMotionValue.isAnimating() && degreesMotionValue.stop();
           const { top, bottom, left, right } = e.target.getBoundingClientRect();
+          console.log(window.innerWidth, left);
           // console.log(top, window.innerHeight);
           if (top > Math.floor(window.innerHeight / 2)) {
             // console.log(dragInfo.delta);
-            if (dragInfo.velocity.x < 0) {
-              console.log('here');
-              degreesMotionValue.set(degreesMotionValue.get() + dragInfo.delta.x * -1);
-            } else {
-              console.log('der');
-              degreesMotionValue.set(degreesMotionValue.get() + dragInfo.delta.x);
-            }
+            // if (dragInfo.velocity.x < 0) {
+            //   console.log('here');
+            //   degreesMotionValue.set(degreesMotionValue.get() + dragInfo.delta.x * -1);
+            // } else {
+            //   console.log('der');
+            //   degreesMotionValue.set(degreesMotionValue.get() + dragInfo.delta.x * -1);
+            // }
           }
-          // degreesMotionValue.set(degreesMotionValue.get() + dragInfo.delta.x + dragInfo.delta.y);
+          if (left > Math.floor(window.innerWidth / 2)) {
+            console.log('hi');
+            // console.log(dragInfo.delta);
+            // if (dragInfo.velocity.y < 0) {
+            //   console.log('hereY');
+            //   degreesMotionValue.set(degreesMotionValue.get() + dragInfo.delta.y * -1);
+            // } else {
+            //   console.log('derY');
+            //   degreesMotionValue.set(degreesMotionValue.get() + dragInfo.delta.y * -1);
+            // }
+          }
+          degreesMotionValue.set(degreesMotionValue.get() + dragInfo.delta.x + dragInfo.delta.y);
         }}
         // onDragEnd={() => {
         //   spin(degreesMotionValue.getVelocity());
