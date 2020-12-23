@@ -26,14 +26,34 @@ const Arrow = styled('div')({
   transform: 'translateX(10rem)',
 });
 
+// const Wedge = styled('div')(props => ({
+//   height: '10rem',
+//   transform: `rotate(${props.degrees}deg)`,
+//   transformOrigin: 'bottom right',
+//   width: '50%',
+//   position: 'absolute',
+//   backgroundColor:
+//     props.index === 0 ? 'red' : props.index === 1 ? 'blue' : props.index === 2 ? 'green' : 'yellow',
+// }));
+
 const Wedge = styled('div')(props => ({
   height: '10rem',
-  transform: `rotate(${props.degrees}deg)`,
+  transform: `rotate(${props.degrees}deg) skewY(30deg)`,
   transformOrigin: 'bottom right',
   width: '50%',
   position: 'absolute',
   backgroundColor:
-    props.index === 0 ? 'red' : props.index === 1 ? 'blue' : props.index === 2 ? 'green' : 'yellow',
+    props.index === 0
+      ? 'red'
+      : props.index === 1
+      ? 'blue'
+      : props.index === 2
+      ? 'green'
+      : props.index === 3
+      ? 'yellow'
+      : props.index === 4
+      ? 'purple'
+      : 'orange',
 }));
 
 function App() {
@@ -89,8 +109,8 @@ function App() {
         }}
       >
         <Circle style={{ transform }}>
-          {Array.from({ length: 4 }).map((wedge, i) => (
-            <Wedge key={i} degrees={String((i + 1) * 90)} index={i} />
+          {Array.from({ length: 6 }).map((wedge, i) => (
+            <Wedge key={i} degrees={String((i + 1) * 60)} index={i} />
           ))}
         </Circle>
       </motion.div>
