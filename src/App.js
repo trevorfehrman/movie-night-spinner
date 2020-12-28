@@ -19,13 +19,6 @@ const Circle = styled(motion.div)({
   position: 'relative',
 });
 
-const Arrow = styled('div')({
-  height: '10rem',
-  width: '5px',
-  backgroundColor: 'black',
-  transform: 'translateX(10rem)',
-});
-
 // const Wedge = styled('div')(props => ({
 //   height: '10rem',
 //   transform: `rotate(${props.degrees}deg)`,
